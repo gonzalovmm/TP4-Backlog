@@ -19,7 +19,7 @@ public class UsuarioTest {
     public void testPuedeSimular_gratis() {
         String nameExample = "UsuarioGratis";
         String mailExample = "gratis@example.com";
-        String passwordExample = "123456";
+        String passwordExample = "1234567";
         Usuario usuario = new Usuario(nameExample, mailExample, passwordExample, false);
         assertFalse(usuario.puedeSimular());
     }
