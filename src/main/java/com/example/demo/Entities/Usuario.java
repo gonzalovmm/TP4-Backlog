@@ -33,10 +33,4 @@ public class Usuario {
         char primeraLetra = nombre.charAt(0);
         return Character.isUpperCase(primeraLetra);
     }
-    //public boolean contraseñaValida(){
-
-    //}
-
-
-
 }
