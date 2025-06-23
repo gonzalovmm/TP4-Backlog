@@ -2,9 +2,11 @@ name: Java CI con Gradle
 
 on:
   push:
-    branches: [ "**" ]
+    branches:
+      - '**'   # se activa en cualquier branch
   pull_request:
-    branches: [ "**" ]
+    branches:
+      - main   # se activa si se abre un PR hacia main
 
 jobs:
   build:

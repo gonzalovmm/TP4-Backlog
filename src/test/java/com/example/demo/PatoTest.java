@@ -8,6 +8,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class PatoTest {
 
+    //Comprobación de métodos
     @Test
     void existeClasePato() {
         Pato pato = new Pato();
@@ -23,12 +24,14 @@ public class PatoTest {
         Pato pato = new Pato();
         pato.walk();
     }
-    // 3
+
     @Test
     void existeFly() {
         Pato pato = new Pato();
         String nada = pato.fly();
     }
+
+    //Chequeo de retornos
     @Test
     void valorSwim(){
         Pato pato = new Pato();
@@ -41,13 +44,15 @@ public class PatoTest {
         String nada = pato.walk();
         assertEquals(nada, "Caminando...");
     }
-    //6
+
     @Test
     void valorFly(){
         Pato pato = new Pato();
         String nada = pato.fly();
         assertEquals(nada, "Volando...");
     }
+
+
     @Test
     public void testEsDeRegion_true() {
         Pato pato = new Pato();
@@ -62,7 +67,6 @@ public class PatoTest {
 
         assertFalse(pato.esDeRegion(Habitat.Ríos));
     }
-    //9
     @Test
     public void testTamañoEnRango_true() {
         Pato pato = new Pato();
@@ -84,7 +88,6 @@ public class PatoTest {
 
         assertTrue(pato.esMigratorio());
     }
-    //12
     @Test
     public void testEsMigratorio_false() {
         Pato pato = new Pato();
@@ -110,7 +113,6 @@ public class PatoTest {
         assertEquals("Overo", pato.getNombreComun());
     }
 
-//15
     @Test
     void testSetterTamañoPromedio(){
         Pato pato = new Pato();
