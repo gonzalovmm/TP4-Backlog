@@ -14,17 +14,9 @@ public class Usuario {
     private String contraseña;
     private boolean esPremium;
 
-
-
-
-    public boolean puedeSimular() {
-        return esPremium;
-    }
-
-    public boolean emailValido() {
-        return email != null && email.contains("@");
-    }
-
+    //Métodos
+    public boolean puedeSimular() {return esPremium;}
+    public boolean emailValido() {return email != null && email.contains("@");}
     public boolean nombreValido(Usuario usuario){
         String nombre = usuario.getNombre();
         if (nombre == null || nombre.isEmpty()) {
@@ -34,3 +26,5 @@ public class Usuario {
         return Character.isUpperCase(primeraLetra);
     }
 }
+
+

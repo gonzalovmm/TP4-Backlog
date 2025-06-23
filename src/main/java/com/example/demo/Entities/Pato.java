@@ -16,43 +16,15 @@ public class Pato {
     private TipoVuelo tipoVuelo;
     private String plumaje;
 
-
-
-    public Boolean esDeRegion(Habitat regionBuscada) {
-        return this.region.equals(regionBuscada);
-    }
-    public Boolean esEstePlumaje(String plumaje){
-        return this.plumaje.equals(plumaje);
-    }
-
-    public Boolean tamañoEnRango(double min, double max) {
-        return tamañoPromedio >= min && tamañoPromedio <= max;
-    }
-
-    public boolean esMigratorio() {
-        return migratorio;
-    }
-
-    public String nombreFormatoFicha() {
-        return nombreComun.toUpperCase() + " (" + nombreCientifico + ")";
-    }
-
-    public String swim(){
-        return "Nadando...";
-    }
-
-    public String walk(){
-        return "Caminando...";
-    }
-    public String fly(){
-        return "Volando...";
-    }
-    public String quack(){
-        return "Quack quack...";
-    }
-
-
-
-
-
+//Metodos
+    public Boolean esDeRegion(Habitat regionBuscada) {return this.region.equals(regionBuscada);}
+    public Boolean tamañoEnRango(double min, double max) {return tamañoPromedio >= min && tamañoPromedio <= max;}
+    public boolean esMigratorio() {return migratorio;}
+    public String nombreFormatoFicha() {return nombreComun.toUpperCase() + " (" + nombreCientifico + ")";}
+    public String swim(){return "Nadando...";}
+    public String walk(){return "Caminando...";}
+    public String fly(){return "Volando...";}
 }
+
+
+
