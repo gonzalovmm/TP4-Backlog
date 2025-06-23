@@ -37,7 +37,7 @@ public class PatoTest {
     void valorSwim(){
         Pato pato = new Pato();
         String nada = pato.swim();
-        assertEquals(nada, "Nadando");
+        assertEquals(nada, "Nadando...");
     }
     
     @Test
