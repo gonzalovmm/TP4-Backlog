@@ -31,14 +31,15 @@ public class PatoTest {
         Pato pato = new Pato();
         String nada = pato.fly();
     }
-
+    
     //Chequeo de retornos
     @Test
     void valorSwim(){
         Pato pato = new Pato();
         String nada = pato.swim();
-        assertEquals(nada, "Nadando");
+        assertEquals(nada, "Nadando...");
     }
+    
     @Test
     void valorWalk(){
         Pato pato = new Pato();
