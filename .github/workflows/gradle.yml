@@ -1,36 +1,107 @@
-name: Java CI con Gradle
+name: CI Java con Gradle
 
 on:
-  push:
-    branches:
-      - '**'   # se activa en cualquier branch
   pull_request:
-    branches:
-      - main   # se activa si se abre un PR hacia main
+    branches: [ "develop" ]   # requerido por el TP
+  push:
+    branches: [ "develop" ]   # opcional para feedback rápido en la rama
 
 jobs:
-  build:
+  lint:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout del código
+      - name: Checkout
         uses: actions/checkout@v4
-
-      - name: Configurar JDK 17
+      - name: JDK 17
         uses: actions/setup-java@v4
         with:
           java-version: '17'
           distribution: 'temurin'
-
-      - name: Configurar Gradle (con caching)
+      - name: Gradle (cache)
         uses: gradle/actions/setup-gradle@v4
-
-      - name: Dar permisos al gradlew
+      - name: Permisos gradlew
         run: chmod +x ./gradlew
+      - name: Lint (Checkstyle/PMD)
+        run: ./gradlew --no-daemon checkstyleMain pmdMain
 
-      - name: Ejecutar build con Gradle
-        run: ./gradlew build
+  format-check:
+    runs-on: ubuntu-latest
+    needs: [lint]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+      - uses: gradle/actions/setup-gradle@v4
+      - name: Permisos gradlew
+        run: chmod +x ./gradlew
+      - name: Format check (Spotless)
+        run: ./gradlew --no-daemon spotlessCheck
 
+  unit-tests:
+    runs-on: ubuntu-latest
+    needs: [format-check]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+      - uses: gradle/actions/setup-gradle@v4
+      - name: Permisos gradlew
+        run: chmod +x ./gradlew
+      - name: Unit tests + coverage
+        run: ./gradlew --no-daemon test jacocoTestReport
+      - name: Publicar reporte de tests
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: reports-unit
+          path: build/reports/tests/test/index.html
+
+  # Descomentalo sólo si agregás integración (si no, dejalo fuera)
+  # integration-tests:
+  #   runs-on: ubuntu-latest
+  #   needs: [unit-tests]
+  #   steps:
+  #     - uses: actions/checkout@v4
+  #     - uses: actions/setup-java@v4
+  #       with:
+  #         java-version: '17'
+  #         distribution: 'temurin'
+  #     - uses: gradle/actions/setup-gradle@v4
+  #     - name: Permisos gradlew
+  #       run: chmod +x ./gradlew
+  #     - name: Integration tests
+  #       run: ./gradlew --no-daemon integrationTest
+  #     - name: Publicar reporte integración
+  #       if: always()
+  #       uses: actions/upload-artifact@v4
+  #       with:
+  #         name: reports-integration
+  #         path: build/reports/tests/integrationTest/index.html
+
+  build:
+    runs-on: ubuntu-latest
+    needs: [unit-tests]  # si habilitás integración, poné needs: [integration-tests]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+      - uses: gradle/actions/setup-gradle@v4
+      - name: Permisos gradlew
+        run: chmod +x ./gradlew
+      - name: Build (sólo empaquetado)
+        run: ./gradlew --no-daemon assemble
+      - name: Publicar artefactos
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist
+          path: build/libs/*
 
   dependency-submission:
     runs-on: ubuntu-latest
@@ -38,7 +109,7 @@ jobs:
       contents: write
     steps:
       - uses: actions/checkout@v4
-      - name: Set up JDK 17
+      - name: JDK 17
         uses: actions/setup-java@v4
         with:
           java-version: '17'
