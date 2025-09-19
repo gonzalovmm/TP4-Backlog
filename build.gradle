@@ -2,6 +2,12 @@ plugins {
 	id 'java'
 	id 'org.springframework.boot' version '3.5.3'
 	id 'io.spring.dependency-management' version '1.1.7'
+
+	// 🔹 nuevos plugins para CI
+	id 'checkstyle'
+	id 'pmd'
+	id 'com.diffplug.spotless' version '6.25.0'
+	id 'jacoco'
 }
 
 group = 'com.example'
@@ -33,4 +39,49 @@ dependencies {
 
 tasks.named('test') {
 	useJUnitPlatform()
+}
+
+//
+// 🔹 Configuración de Linter (Checkstyle y PMD)
+//
+checkstyle {
+	toolVersion = '10.17.0'
+	ignoreFailures = false
+	// Si no ponés configFile usa reglas default (suficiente para arrancar)
+}
+
+pmd {
+	toolVersion = '7.7.0'
+	ignoreFailures = false
+	ruleSets = [] // vacío para evitar reglas legacy molestas
+}
+
+//
+// 🔹 Configuración de Formato (Spotless)
+//
+spotless {
+	java {
+		googleJavaFormat()   // estilo Google
+		target 'src/**/*.java'
+	}
+}
+
+//
+// 🔹 Configuración de Cobertura (JaCoCo)
+//
+jacoco {
+	toolVersion = "0.8.12"
+}
+
+tasks.test {
+	useJUnitPlatform()
+	finalizedBy tasks.jacocoTestReport
+}
+
+tasks.jacocoTestReport {
+	dependsOn tasks.test
+	reports {
+		xml.required = true
+		html.required = true
+	}
 }
