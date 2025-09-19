@@ -16,6 +16,7 @@ public class Usuario {
 
     //Métodos
     public boolean puedeSimular() {return esPremium;}
+    private booleano
     public boolean emailValido() {return email != null && email.contains("@");}
     public boolean nombreValido(Usuario usuario){
         String nombre = usuario.getNombre();
