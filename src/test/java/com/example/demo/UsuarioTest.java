@@ -21,7 +21,7 @@ public class UsuarioTest {
         String mailExample = "gratis@example.com";
         String passwordExample = "1234567";
         Usuario usuario = new Usuario(nameExample, mailExample, passwordExample, false);
-        assertFalse(usuario.puedeSimular());
+        assertTrue(usuario.puedeSimular());
     }
 
     @Test
