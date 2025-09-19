@@ -22,7 +22,7 @@ public class UsuarioTest {
     String mailExample = "gratis@example.com";
     String passwordExample = "1234567";
     Usuario usuario = new Usuario(nameExample, mailExample, passwordExample, false);
-    assertTrue(usuario.puedeSimular());
+    assertFalse(usuario.puedeSimular());
   }
 
   @Test
@@ -40,7 +40,7 @@ public class UsuarioTest {
     String mailExample = "invalido.com"; // falta @
     String passwordExample = "passInvalido";
     Usuario usuario = new Usuario(nameExample, mailExample, passwordExample, false);
-    assertTrue(usuario.emailValido());
+    assertFalse(usuario.emailValido());
   }
 
   @Test
