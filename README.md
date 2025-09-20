@@ -1,4 +1,4 @@
-# TP4 Backlog - Integración Continua con GitHub Actions
+# TP4 Backlog - Integración Continua con GitHub Actions extendido
 
 ---
 
