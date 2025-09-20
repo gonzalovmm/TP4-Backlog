@@ -5,7 +5,10 @@ on:
     branches: [develop]   # bloquea el PR hasta pasar checks
   push:
     branches: [develop]
-
+permissions:
+  contents: read
+  checks: write
+  pull-requests: write
 
 jobs:
   lint_format:
@@ -28,7 +31,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-java@v4
-        with: { distribution: temurin, java-version: "17" }
+        with:
+          distribution: temurin
+          java-version: "17"
       - uses: gradle/actions/setup-gradle@v3
       - name: Grant execute permission for gradlew
         run: chmod +x ./gradlew
@@ -41,7 +46,7 @@ jobs:
           name: unit-test-report
           path: build/reports/tests/test
       - name: Anotar resultados (unit) en el PR
-        if: always()
+        if: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository }}
         uses: dorny/test-reporter@v1
         with:
           name: JUnit (unit)
