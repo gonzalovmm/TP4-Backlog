@@ -18,25 +18,22 @@ jobs:
       - uses: actions/setup-java@v4
         with: { distribution: temurin, java-version: "17" }
       - uses: gradle/actions/setup-gradle@v3
-      - name: Grant execute permission for gradlew
-        run: chmod +x ./gradlew
+      - run: chmod +x ./gradlew
       - name: Checkstyle + Spotless (no modifica código)
         run: |
           ./gradlew checkstyleMain checkstyleTest --no-daemon
           ./gradlew spotlessCheck --no-daemon
 
   unit_tests:
-    if: ${{ always() }}
+    needs: [lint_format]             # mantiene la cadena visual
+    if: ${{ always() }}              # corre aunque lint_format falle
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-java@v4
-        with:
-          distribution: temurin
-          java-version: "17"
+        with: { distribution: temurin, java-version: "17" }
       - uses: gradle/actions/setup-gradle@v3
-      - name: Grant execute permission for gradlew
-        run: chmod +x ./gradlew
+      - run: chmod +x ./gradlew
       - name: Unit tests
         run: ./gradlew test --no-daemon
       - name: Publicar reportes (unit)
@@ -55,19 +52,16 @@ jobs:
           fail-on-error: false
 
   build:
-    if: ${{ always() }}
+    needs: [unit_tests]              # mantiene la cadena visual
+    if: ${{ always() }}              # corre aunque unit_tests falle
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-java@v4
-        with:
-          distribution: temurin
-          java-version: "17"
+        with: { distribution: temurin, java-version: "17" }
       - uses: gradle/actions/setup-gradle@v3
-      - name: Validar line endings
-        run: sed -i 's/\r$//' gradlew
-      - name: Grant execute permission for gradlew
-        run: chmod +x ./gradlew
+      - run: sed -i 's/\r$//' gradlew
+      - run: chmod +x ./gradlew
       - name: Assemble
         run: ./gradlew assemble --no-daemon
 
