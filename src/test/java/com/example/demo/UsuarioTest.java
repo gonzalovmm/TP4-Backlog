@@ -31,7 +31,7 @@ public class UsuarioTest {
     String mailExample = "valido@example.com";
     String passwordExample = "passValido";
     Usuario usuario = new Usuario(nameExample, mailExample, passwordExample, false);
-    assertFalse(usuario.emailValido());
+    assertTrue(usuario.emailValido());
   }
 
   @Test
