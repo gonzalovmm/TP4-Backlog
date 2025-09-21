@@ -25,8 +25,8 @@ jobs:
           ./gradlew spotlessCheck --no-daemon
 
   unit_tests:
-    needs: [lint_format]             # mantiene la cadena visual
-    if: ${{ always() }}              # corre aunque lint_format falle
+    needs: [lint_format]
+    if: ${{ always() }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -52,8 +52,8 @@ jobs:
           fail-on-error: false
 
   build:
-    needs: [unit_tests]              # mantiene la cadena visual
-    if: ${{ always() }}              # corre aunque unit_tests falle
+    needs: [unit_tests]              
+    if: ${{ always() }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
