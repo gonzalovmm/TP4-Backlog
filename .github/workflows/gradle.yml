@@ -26,6 +26,7 @@ jobs:
           ./gradlew spotlessCheck --no-daemon
 
   unit_tests:
+    if: ${{ always() }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -54,6 +55,7 @@ jobs:
           fail-on-error: false
 
   build:
+    if: ${{ always() }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -62,12 +64,10 @@ jobs:
           distribution: temurin
           java-version: "17"
       - uses: gradle/actions/setup-gradle@v3
-
       - name: Validar line endings
         run: sed -i 's/\r$//' gradlew
-
       - name: Grant execute permission for gradlew
         run: chmod +x ./gradlew
-
       - name: Assemble
         run: ./gradlew assemble --no-daemon
+
